@@ -1,0 +1,18 @@
+Options -Indexes -MultiViews
+RewriteEngine On
+
+# ── Remove .php extension ─────────────────────────────────────────────────────
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# ── Clean URL rewrites ────────────────────────────────────────────────────────
+RewriteRule ^login$       auth/login.php           [NC,L]
+RewriteRule ^register$    Register.php             [NC,L]
+RewriteRule ^dashboard$   dashboard.php            [NC,L]
+RewriteRule ^forgot$      auth/forgot_password.php [NC,L]
+
+# ── Block direct browser access to sensitive folders ──────────────────────────
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{THE_REQUEST} \s/+(auth|database)/ [NC]
+RewriteRule ^ - [F,L]
